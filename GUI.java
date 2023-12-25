@@ -3,32 +3,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import java.util.List;
-import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -38,12 +26,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+
 public class GUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Recipe App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        Color bgColor = new Color(54, 54, 54);
+        //Color bgColor = new Color(54, 54, 54);
         JPanel rightPanel = createRightPanel(Color.PINK);
         JPanel topPanel = createTopPanel();
         JPanel leftPanel = createLeftPanel(Color.PINK,rightPanel);
@@ -164,7 +153,7 @@ public class GUI {
         radioButtonsPanel.setBackground(Color.decode("#AFEEEE"));
         recipeTypeLabel.setPreferredSize(new Dimension(500,50));
 
-        // Add radio buttons for different recipe types
+        
         JRadioButton dessertRadioButton = new JRadioButton("Desserts");
         JRadioButton mainCourseRadioButton = new JRadioButton("Main Courses");
         JRadioButton saladsRadioButton = new JRadioButton("Salads");
@@ -287,6 +276,7 @@ public class GUI {
         mainPanel.add(inputPanel);
         mainPanel.add(addButton);
 
+        //Finding dimensions to center the frame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int centerX = (int) ((screenSize.getWidth() - dialogFrame.getWidth()) / 2);
         int centerY = (int) ((screenSize.getHeight() - dialogFrame.getHeight()) / 2);
@@ -426,7 +416,7 @@ public class GUI {
         recipesList.setForeground(Color.BLACK);
         recipesList.setBorder(null);
         recipesList.setPreferredSize(new Dimension(300, 300));
-        recipesList.setFont(new Font("Tahoma", Font.BOLD, 18));
+        recipesList.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         recipesList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedRecipe = recipesList.getSelectedValue();
@@ -446,15 +436,16 @@ public class GUI {
             if (recipe.getRecipeType().equals(selectedCategory) && recipe.getName().equals(selectedRecipeName)) {
                 JTextArea recipeDetails = new JTextArea(recipe.toString());
                 recipeDetails.setEditable(false);
-                recipeDetails.setFont(new Font("Tahoma",Font.BOLD,18));
+                recipeDetails.setFont(new Font("Calibri",Font.BOLD,18));
                 recipeDetails.setForeground(Color.BLACK);
                 recipeDetails.setBackground(Color.decode("#43b3ae"));
                 recipeDetails.setLineWrap(true);
                 recipeDetails.setWrapStyleWord(true);
-                recipeDetails.setPreferredSize(new Dimension(400, 400));
-                
+                JScrollPane scrollPane = new JScrollPane(recipeDetails);
+                scrollPane.setPreferredSize(new Dimension(400, 400));
+
                 rightPanel.removeAll();
-                rightPanel.add(new JScrollPane(recipeDetails));
+                rightPanel.add(scrollPane);
                 rightPanel.revalidate();
                 rightPanel.repaint();
                 break;
@@ -549,9 +540,7 @@ public class GUI {
                 rightPanel.repaint();
         }
     
-    
-    
-
+    //Default label if no category is selected
     private static JLabel createDefaultRecipeLabel() {
         JLabel label = new JLabel("Select a category to view recipes");
         label.setForeground(Color.BLACK);
@@ -564,6 +553,5 @@ public class GUI {
         return label;
     }
 }
-
     
 
